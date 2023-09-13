@@ -1,0 +1,5 @@
+node_modules
+.tsbuildinfo
+/dashboard
+/extension
+/graphics

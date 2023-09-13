@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Setup Dashboard</title>
+		<link rel="shortcut icon" href="#" />
+		<style>
+			body,
+			html {
+				box-sizing: border-box;
+				height: auto;
+				width: fit-content;
+			}
+		</style>
+	</head>
+	<body>
+		<div style="display: flex; justify-content: space-between; gap: 1em; flex-wrap: wrap;">
+			<div>OBS Address: <input type="text" id="obs-address" /></div>
+			<div>OBS Port: <input type="text" id="obs-port" /></div>
+			<div>OBS Password: <input type="password" id="obs-password" /></div>
+			<div>
+				<button id="reset-obs">Reset Connection</button>
+			</div>
+		</div>
+		<hr />
+		<div style="display: flex; justify-content: space-between; gap: 1em">
+			<div>Hyperdeck Address: <input type="text" id="hyperdeck-address" /></div>
+			<div>
+				<button id="reset-hyperdeck">Reset Connection</button>
+			</div>
+		</div>
+		<hr />
+		<div>
+			<div
+				id="control-buttons"
+				style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5em"
+			></div>
+			<button id="add" style="margin-top: 0.5em">Add Control Button</button>
+		</div>
+	</body>
+	<script src="setup.js"></script>
+</html>

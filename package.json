@@ -1,0 +1,62 @@
+{
+	"name": "host-judge",
+	"version": "1.0.0",
+	"files": [
+		"dashboard",
+		"graphics",
+		"extension.js",
+		"extension"
+	],
+	"nodecg": {
+		"compatibleRange": "^1.8.1",
+		"dashboardPanels": [
+			{
+				"name": "setup",
+				"title": "Setup Dashboard",
+				"width": 4,
+				"file": "setup.html"
+			},
+			{
+				"name": "control",
+				"title": "Control Dashboard",
+				"width": 3,
+				"file": "control.html"
+			}
+		],
+		"graphics": [
+			{
+				"file": "index.html",
+				"width": 1920,
+				"height": 1080
+			}
+		]
+	},
+	"scripts": {
+		"start:NodeCG": "node ../../index.js --bundlesEnabled host-judge",
+		"watch": "npm-run-all -p watch:*",
+		"watch:extension": "node ./node_modules/typescript/bin/tsc -p ./src/extension --diagnostics --watch",
+		"watch:dashboard": "node ./node_modules/typescript/bin/tsc -p ./src/dashboard --diagnostics --watch",
+		"watch:graphics": "node ./node_modules/typescript/bin/tsc -p ./src/graphics --diagnostics --watch",
+		"watch:copy": "onchange -i ./src -- npm-run-all -s build:copy*",
+		"build": "npm-run-all -s build:*",
+		"build:extension": "node ./node_modules/typescript/bin/tsc -p ./src/extension --diagnostics",
+		"build:dashboard": "node ./node_modules/typescript/bin/tsc -p ./src/dashboard --diagnostics",
+		"build:graphics": "node ./node_modules/typescript/bin/tsc -p ./src/graphics --diagnostics",
+		"build:copyhtml": "cpy \"src/**/*.html\" \"./\" --parents",
+		"build:copycss": "cpy \"src/**/*.css\" \"./\" --parents"
+	},
+	"author": "Mark Schwartzkopf",
+	"license": "MIT",
+	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^5.33.1",
+		"@typescript-eslint/parser": "^5.33.1",
+		"eslint": "^8.22.0",
+		"cpy-cli": "^4.1.0",
+		"npm-run-all": "^4.1.5",
+		"onchange": "^7.1.0",
+		"typescript": "^4.7.4"
+	},
+	"dependencies": {
+		"obs-websocket-js": "^5.0.3"
+	}
+}
