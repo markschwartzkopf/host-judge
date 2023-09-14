@@ -13,9 +13,12 @@ module.exports = function (nodecg: NodeCG) {
 	const hyperdeckClips = nodecg.Replicant<ClipInfo[]>('hyperdeck_clips', {
 		defaultValue: [],
 	});
-	const auditionSegments = nodecg.Replicant<AuditionSegment[]>('audition_segments', {
-		defaultValue: [],
-	});
+	const auditionSegments = nodecg.Replicant<AuditionSegment[]>(
+		'audition_segments',
+		{
+			defaultValue: [],
+		}
+	);
 	const obsIp = nodecg.Replicant<string>('obs_ip', {
 		defaultValue: '',
 	});
@@ -146,6 +149,7 @@ module.exports = function (nodecg: NodeCG) {
 						break;
 					case 'stopped':
 						if (obsConnected) {
+							nodecg.sendMessage('videoStopped');
 							obs
 								.call('StopRecord')
 								.then(() => {

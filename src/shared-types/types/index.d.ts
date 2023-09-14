@@ -8,4 +8,5 @@ type Donation = {
 	donor: string;
 	amount: number;
 	comment: string;
+	hide?: boolean;
 }

@@ -28,10 +28,38 @@
 				padding: 1em;
 			}
 			.button {
-				background-color: blue;
 				padding: 0.5em;
 				border-radius: 0.5em;
 				cursor: default;
+				color: white;
+				text-align: center;
+				font-weight: bold;
+				line-height: 1em;
+			}
+			.donation {
+				background-color: #333;
+				border: 1px gray solid;
+				border-radius: 0.5em;
+				padding: 0.5em;
+				margin: 0.5em;
+			}
+			.donation-header {
+				display: flex;
+				justify-content: space-between;
+			}
+			.metadiv {
+				padding: 0.5em;
+			}
+			.donation-button {
+				height: 1em;
+				width: 1.5em;
+				margin-left: 0.5em;
+			}
+			.comment {
+				background-color: black;
+				padding: 0.5em;
+				border-radius: 0.5em;
+				margin-top: 0.3em;
 			}
 		</style>
 	</head>
@@ -41,7 +69,7 @@
 		</div>
 		<div style="flex-grow: 1; padding: 1em">
 			<div style="font-weight: bold; text-align: center">Donations:</div>
-			<div id="donations">none yet...</div>
+			<div id="donations"></div>
 		</div>
 	</body>
 	<script src="index.js"></script>
