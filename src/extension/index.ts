@@ -13,7 +13,7 @@ module.exports = function (nodecg: NodeCG) {
 	const hyperdeckClips = nodecg.Replicant<ClipInfo[]>('hyperdeck_clips', {
 		defaultValue: [],
 	});
-	const controlButtons = nodecg.Replicant<controlButton[]>('control_buttons', {
+	const auditionSegments = nodecg.Replicant<AuditionSegment[]>('audition_segments', {
 		defaultValue: [],
 	});
 	const obsIp = nodecg.Replicant<string>('obs_ip', {

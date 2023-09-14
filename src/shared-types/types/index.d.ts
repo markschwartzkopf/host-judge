@@ -1,4 +1,11 @@
-type controlButton = {
+type AuditionSegment = {
 	filename: string;
-	buttonName: string;
+	donations: Donation[];
+	instructions: string;
+}
+
+type Donation = {
+	donor: string;
+	amount: number;
+	comment: string;
 }

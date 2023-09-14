@@ -1,6 +1,6 @@
 /// <reference path="../../../../types/browser.d.ts" />
 
-const controlButtons2 = nodecg.Replicant<controlButton[]>('control_buttons');
+/* const controlButtons2 = nodecg.Replicant<controlButton[]>('control_buttons');
 
 controlButtons2.on('change', (newVal) => {
 	const body = document.body;
@@ -14,3 +14,4 @@ controlButtons2.on('change', (newVal) => {
 		body.appendChild(button);
 	}
 });
+ */
