@@ -111,54 +111,70 @@ function drawScreen() {
 				})
 			);
 			if (segment)
-				for (let i = 0; i < segment.donations.length; i++) {
-					if (!segment.donations[i].hide) {
-						const donationDiv = document.createElement('div');
-						donationDiv.className = 'donation';
-						const headerDiv = document.createElement('div');
-						headerDiv.className = 'donation-header';
-						const metaDiv = document.createElement('div');
-						metaDiv.className = 'metadiv';
-						const amount = document.createElement('b');
-						amount.innerHTML = `$${segment.donations[i].amount.toFixed(2)} `;
-						metaDiv.appendChild(amount);
-						metaDiv.appendChild(document.createTextNode('from '));
-						const donor = document.createElement('b');
-						donor.innerHTML = segment.donations[i].donor;
-						metaDiv.appendChild(donor);
-						headerDiv.appendChild(metaDiv);
-						const buttonDiv = document.createElement('div');
-						buttonDiv.style.display = 'flex';
-						buttonDiv.appendChild(
-							makeButton(
-								'&#x2713',
-								'green',
-								() => {
-									segment.donations[i].hide = true;
-								},
-								false,
-								'donation-button'
-							)
-						);
-						buttonDiv.appendChild(
-							makeButton(
-								'&#8211',
-								'red',
-								() => {
-									segment.donations[i].hide = true;
-								},
-								false,
-								'donation-button'
-							)
-						);
-						headerDiv.appendChild(buttonDiv);
-						donationDiv.appendChild(headerDiv);
-						const commentDiv = document.createElement('div');
-						commentDiv.className = 'comment';
-						commentDiv.innerHTML = segment.donations[i].comment;
-						donationDiv.appendChild(commentDiv);
-						donationsDiv.appendChild(donationDiv);
+				if (segment.donations.length) {
+					console.log(segment.donations.length);
+					for (let i = 0; i < segment.donations.length; i++) {
+						if (!segment.donations[i].hide) {
+							const donationDiv = document.createElement('div');
+							donationDiv.className = 'donation';
+							const headerDiv = document.createElement('div');
+							headerDiv.className = 'donation-header';
+							const metaDiv = document.createElement('div');
+							metaDiv.className = 'metadiv';
+							const amount = document.createElement('b');
+							amount.innerHTML = `$${segment.donations[i].amount.toFixed(2)} `;
+							metaDiv.appendChild(amount);
+							metaDiv.appendChild(document.createTextNode('from '));
+							const donor = document.createElement('b');
+							donor.innerHTML = segment.donations[i].donor;
+							metaDiv.appendChild(donor);
+							headerDiv.appendChild(metaDiv);
+							const buttonDiv = document.createElement('div');
+							buttonDiv.style.display = 'flex';
+							buttonDiv.appendChild(
+								makeButton(
+									'&#x2713',
+									'green',
+									() => {
+										segment.donations[i].hide = true;
+									},
+									false,
+									'donation-button'
+								)
+							);
+							buttonDiv.appendChild(
+								makeButton(
+									'&#8211',
+									'red',
+									() => {
+										segment.donations[i].hide = true;
+									},
+									false,
+									'donation-button'
+								)
+							);
+							headerDiv.appendChild(buttonDiv);
+							donationDiv.appendChild(headerDiv);
+							const commentDiv = document.createElement('div');
+							commentDiv.className = 'comment';
+							if (segment.donations[i].comment) {
+								commentDiv.innerHTML = segment.donations[i].comment;
+							} else {
+								commentDiv.innerHTML = '<i>No comment was provided</i>';
+								commentDiv.style.color = 'gray';
+								commentDiv.style.textAlign = 'center';
+							}
+							donationDiv.appendChild(commentDiv);
+							donationsDiv.appendChild(donationDiv);
+						}
 					}
+				} else {
+					const noDonos = document.createElement('div');
+					noDonos.innerHTML = '<i>There are no donations for this segment<i>';
+					noDonos.style.color = 'gray';
+					noDonos.style.textAlign = 'center';
+					noDonos.style.margin = '1em';
+					donationsDiv.appendChild(noDonos);
 				}
 		});
 	} else {
@@ -210,8 +226,8 @@ function startNextSegment() {
 		) {
 			auditionSegment = null;
 		}
-		if (auditionSegment === 0) nodecg.sendMessage('obsRecord')
-		if (auditionSegment === null) nodecg.sendMessage('obsStopRecord')
+		if (auditionSegment === 0) nodecg.sendMessage('obsRecord');
+		if (auditionSegment === null) nodecg.sendMessage('obsStopRecord');
 		const segment =
 			auditionSegments.value && auditionSegment !== null
 				? auditionSegments.value[auditionSegment]
