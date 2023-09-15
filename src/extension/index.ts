@@ -58,12 +58,12 @@ module.exports = function (nodecg: NodeCG) {
 		obsConnected = false;
 		if (obsConnecting) return;
 		obsConnecting = true;
-		console.log('obs disconnect');
+		//console.log('obs disconnect');
 		obs
 			.disconnect()
 			.then(() => {
 				if (obsIp.value) {
-					console.log('obs connect');
+					nodecg.log.info('OBS connected');
 					obs
 						.connect(`ws://${obsIp.value}:${obsPort.value}`, obsPassword.value)
 						.then(() => {
@@ -92,6 +92,33 @@ module.exports = function (nodecg: NodeCG) {
 		obsRenew();
 	});
 
+	nodecg.listenFor('obsRecord', () => {
+		if (obsConnected) {
+			obs
+				.call('StartRecord')
+				.then(() => {
+					nodecg.log.info('OBS recording started');
+				})
+				.catch((err) => {
+					nodecg.log.error(err);
+				});
+		} else nodecg.log.error(`Can't start recording: OBS not connected`);
+	});
+
+	nodecg.listenFor('obsStopRecord', () => {
+		if (obsConnected) {
+			nodecg.sendMessage('videoStopped');
+			obs
+				.call('StopRecord')
+				.then(() => {
+					nodecg.log.info('OBS recording stopped');
+				})
+				.catch((err) => {
+					nodecg.log.error(err);
+				});
+		} else nodecg.log.error(`Can't stop recording: OBS not connected`);
+	});
+
 	hyperdeckIp.on('change', (newVal) => {
 		connectHyperdeck();
 	});
@@ -111,10 +138,13 @@ module.exports = function (nodecg: NodeCG) {
 			nodecg.log.error(`Cannot play file "${filename}". File not on HyperDeck`);
 			return;
 		}
-		nodecg.log.info(`Starting HyperDeck clip with filename "${filename}"`);
-		hyperdeck.play({
-			number: hyperdeck.clips[index].index,
-			slotId: hyperdeck.clips[index].slotId,
+		hyperdeck.stop().then(() => {
+			nodecg.log.info(`Starting HyperDeck clip with filename "${filename}"`);
+			if (hyperdeck)
+				hyperdeck.play({
+					number: hyperdeck.clips[index].index,
+					slotId: hyperdeck.clips[index].slotId,
+				});
 		});
 	});
 
@@ -133,7 +163,7 @@ module.exports = function (nodecg: NodeCG) {
 				nodecg.log.info('HyperDeck clips updated');
 				hyperdeckClips.value = clips;
 			});
-			hyperdeck.on('transport', (status) => {
+			/* hyperdeck.on('transport', (status) => {
 				switch (status) {
 					case 'play':
 						if (obsConnected) {
@@ -161,7 +191,7 @@ module.exports = function (nodecg: NodeCG) {
 						} else nodecg.log.error(`Can't stop recording: OBS not connected`);
 						break;
 				}
-			});
+			}); */
 			hyperdeck.once('connected', () => {
 				nodecg.log.info('HyperDeck at ' + ip + ' connected');
 				if (hyperdeck) hyperdeckClips.value = hyperdeck.clips;

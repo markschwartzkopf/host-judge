@@ -7,12 +7,12 @@ const instructionsDiv = document.getElementById(
 ) as HTMLDivElement;
 const donationsDiv = document.getElementById('donations') as HTMLDivElement;
 
-let showGotoNext = false;
+//let showGotoNext = false;
 
-nodecg.listenFor('videoStopped', () => {
+/* nodecg.listenFor('videoStopped', () => {
 	showGotoNext = true;
 	drawScreen();
-});
+}); */
 
 const auditionSegments =
 	nodecg.Replicant<AuditionSegment[]>('audition_segments');
@@ -32,7 +32,7 @@ const startingChecklist: ChecklistItem[] = [
 	},
 ];
 
-let auditionSegment = -1;
+let auditionSegment: number | null = -1;
 
 auditionSegments.on('change', (newVal) => {
 	drawScreen();
@@ -41,7 +41,7 @@ auditionSegments.on('change', (newVal) => {
 function drawScreen() {
 	instructionsDiv.innerHTML = '';
 	donationsDiv.innerHTML = '';
-	if (auditionSegment < 0) {
+	if (auditionSegment !== null && auditionSegment < 0) {
 		const button = makeButton(
 			'Start',
 			'blue',
@@ -54,6 +54,29 @@ function drawScreen() {
 			},
 			true
 		);
+		instructionsDiv.appendChild(
+			document.createTextNode(
+				`Hello and welcome to the AGDQ 2024 host audition. Please make sure you've reviewed the following materials before beginning:`
+			)
+		);
+		const list = document.createElement('ul');
+		let item = document.createElement('li');
+		item.innerHTML = `Instructions`;
+		list.appendChild(item);
+		item = document.createElement('li');
+		item.innerHTML = `Judging rubric`;
+		list.appendChild(item);
+		item = document.createElement('li');
+		item.innerHTML = `Blurbs`;
+		list.appendChild(item);
+		instructionsDiv.appendChild(list);
+		instructionsDiv.appendChild(
+			document.createTextNode(
+				`Make sure you have the blurbs open and ready to go. When you’re ready, check the boxes and go to the next page to start.`
+			)
+		);
+		instructionsDiv.appendChild(document.createElement('br'));
+		instructionsDiv.appendChild(document.createElement('br'));
 		for (let i = 0; i < startingChecklist.length; i++) {
 			const itemDiv = document.createElement('div');
 			const checkbox = document.createElement('input');
@@ -70,19 +93,23 @@ function drawScreen() {
 			instructionsDiv.appendChild(itemDiv);
 		}
 		instructionsDiv.appendChild(button);
-	} else {
+	} else if (auditionSegment !== null) {
 		NodeCG.waitForReplicants(auditionSegments).then(() => {
-			const segment = auditionSegments.value
-				? auditionSegments.value[auditionSegment]
-				: null;
+			const segment =
+				auditionSegments.value && auditionSegment !== null
+					? auditionSegments.value[auditionSegment]
+					: null;
 			instructionsDiv.innerHTML = segment ? segment.instructions : '';
-			if (showGotoNext) {
-				instructionsDiv.appendChild(
-					makeButton('Start Next Segment', 'blue', () => {
+			instructionsDiv.appendChild(
+				makeButton('Start Next Segment', 'blue', () => {
+					if (
+						confirm(
+							`Are you sure you're finished, and ready for the next segment?`
+						)
+					)
 						startNextSegment();
-					})
-				);
-			}
+				})
+			);
 			if (segment)
 				for (let i = 0; i < segment.donations.length; i++) {
 					if (!segment.donations[i].hide) {
@@ -134,6 +161,9 @@ function drawScreen() {
 					}
 				}
 		});
+	} else {
+		instructionsDiv.innerHTML =
+			'Thank you for auditioning. Your audition is now complete. Please close this page now.';
 	}
 }
 
@@ -171,16 +201,30 @@ function buttonOn(buttonContainer: HTMLDivElement, on?: boolean) {
 }
 
 function startNextSegment() {
-	auditionSegment++;
+	if (auditionSegment !== null) auditionSegment++;
 	NodeCG.waitForReplicants(auditionSegments).then(() => {
-		const segment = auditionSegments.value![auditionSegment];
-		for (let i = 0; i < segment.donations.length; i++)
-			segment.donations[i].hide = false;
-		showGotoNext = false;
+		if (
+			auditionSegments.value &&
+			auditionSegment !== null &&
+			auditionSegment >= auditionSegments.value.length
+		) {
+			auditionSegment = null;
+		}
+		if (auditionSegment === 0) nodecg.sendMessage('obsRecord')
+		if (auditionSegment === null) nodecg.sendMessage('obsStopRecord')
+		const segment =
+			auditionSegments.value && auditionSegment !== null
+				? auditionSegments.value[auditionSegment]
+				: null;
+		if (segment)
+			for (let i = 0; i < segment.donations.length; i++)
+				segment.donations[i].hide = false;
+		//showGotoNext = false;
 		drawScreen();
-		nodecg.sendMessage(
-			'playFile',
-			auditionSegments.value![auditionSegment].filename
-		);
+		if (auditionSegment !== null)
+			nodecg.sendMessage(
+				'playFile',
+				auditionSegments.value![auditionSegment].filename
+			);
 	});
 }
