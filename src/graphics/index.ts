@@ -23,7 +23,7 @@ const startingChecklist: ChecklistItem[] = [
 		checked: false,
 	},
 	{
-		text: 'I see video in Discord',
+		text: 'I have the GDQHostBot stream open in discord (you should see a black screen)',
 		checked: false,
 	},
 	{
@@ -170,7 +170,7 @@ function drawScreen() {
 					}
 				} else {
 					const noDonos = document.createElement('div');
-					noDonos.innerHTML = '<i>There are no donations for this segment<i>';
+					noDonos.innerHTML = '<i>There are no donations for this segment</i>';
 					noDonos.style.color = 'gray';
 					noDonos.style.textAlign = 'center';
 					noDonos.style.margin = '1em';
