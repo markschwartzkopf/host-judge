@@ -27,7 +27,7 @@ const startingChecklist: ChecklistItem[] = [
 		checked: false,
 	},
 	{
-		text: 'I have the blurbs open',
+		text: 'I have the blurbs and audition context open',
 		checked: false,
 	},
 ];
@@ -179,7 +179,7 @@ function drawScreen() {
 		});
 	} else {
 		instructionsDiv.innerHTML =
-			'Thank you for auditioning. Your audition is now complete. Please close this page now.';
+			'Your audition is now complete! Thank you for auditioning as a host for this event. You will hear back on your results via email near the start of November. <br /><b>Please close this window now.</b>';
 	}
 }
 
