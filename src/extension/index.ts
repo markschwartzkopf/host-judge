@@ -105,6 +105,7 @@ module.exports = function (nodecg: NodeCG) {
         })
         .then(() => {
           nodecg.log.info('OBS recording started');
+					nodecg.sendMessage('recordingStarted');
         })
         .catch((err) => {
           nodecg.log.error(err);

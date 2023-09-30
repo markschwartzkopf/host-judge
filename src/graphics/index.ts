@@ -33,6 +33,7 @@ const startingChecklist: ChecklistItem[] = [
 ];
 
 let auditionSegment: number | null = -1;
+let obsRecording = false;
 
 auditionSegments.on('change', (newVal) => {
 	drawScreen();
@@ -112,7 +113,6 @@ function drawScreen() {
 			);
 			if (segment)
 				if (segment.donations.length) {
-					console.log(segment.donations.length);
 					for (let i = 0; i < segment.donations.length; i++) {
 						if (!segment.donations[i].hide) {
 							const donationDiv = document.createElement('div');
@@ -217,6 +217,10 @@ function buttonOn(buttonContainer: HTMLDivElement, on?: boolean) {
 }
 
 function startNextSegment() {
+	if (auditionSegment === -1 && !obsRecording) {
+		nodecg.sendMessage('obsRecord');
+		return;
+	}
 	if (auditionSegment !== null) auditionSegment++;
 	NodeCG.waitForReplicants(auditionSegments).then(() => {
 		if (
@@ -226,7 +230,7 @@ function startNextSegment() {
 		) {
 			auditionSegment = null;
 		}
-		if (auditionSegment === 0) nodecg.sendMessage('obsRecord');
+		//if (auditionSegment === 0) nodecg.sendMessage('obsRecord');
 		if (auditionSegment === null) nodecg.sendMessage('obsStopRecord');
 		const segment =
 			auditionSegments.value && auditionSegment !== null
@@ -235,7 +239,6 @@ function startNextSegment() {
 		if (segment)
 			for (let i = 0; i < segment.donations.length; i++)
 				segment.donations[i].hide = false;
-		//showGotoNext = false;
 		drawScreen();
 		if (auditionSegment !== null)
 			nodecg.sendMessage(
@@ -244,3 +247,8 @@ function startNextSegment() {
 			);
 	});
 }
+
+nodecg.listenFor('recordingStarted', () => {
+	obsRecording = true;
+	startNextSegment();
+});
