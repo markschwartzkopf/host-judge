@@ -6,6 +6,8 @@ import OBSWebSocket from 'obs-websocket-js';
 module.exports = function (nodecg: NodeCG) {
   nodecgApiContext.set(nodecg);
   require('./othermodule');
+  console.log('Bundle Config:');
+  console.log(nodecg.bundleConfig);
 
   const hyperdeckIp = nodecg.Replicant<string>('hyperdeck_ip', {
     defaultValue: '',
@@ -49,6 +51,7 @@ module.exports = function (nodecg: NodeCG) {
   });
 
   function obsRenew() {
+    if (nodecg.bundleConfig.noObs) return;
     obsConnected = false;
     if (obsConnecting) return;
     obsConnecting = true;
@@ -88,6 +91,10 @@ module.exports = function (nodecg: NodeCG) {
   });
 
   nodecg.listenFor('obsRecord', () => {
+    if (nodecg.bundleConfig.noObs) {
+      nodecg.sendMessage('recordingStarted');
+      return;
+    }
     if (obsConnected) {
       obs
         .call('StopRecord')
@@ -97,7 +104,7 @@ module.exports = function (nodecg: NodeCG) {
           );
           return delay(500);
         })
-        .catch((err) => {
+        .catch(() => {
           //This SHOULD throw an error unless 'StopRecord' is needed, which is rare
         })
         .finally(() => {
@@ -105,7 +112,7 @@ module.exports = function (nodecg: NodeCG) {
         })
         .then(() => {
           nodecg.log.info('OBS recording started');
-					nodecg.sendMessage('recordingStarted');
+          nodecg.sendMessage('recordingStarted');
         })
         .catch((err) => {
           nodecg.log.error(err);

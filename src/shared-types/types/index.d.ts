@@ -1,12 +1,13 @@
 type AuditionSegment = {
-	filename: string;
-	donations: Donation[];
-	instructions: string;
-}
+  filename: string;
+  donations: Donation[];
+  instructions: string;
+};
 
 type Donation = {
-	donor: string;
-	amount: number;
-	comment: string;
-	hide?: boolean;
-}
+  donor: string;
+  amount: number;
+  comment: string;
+  hide?: boolean;
+  pinned?: boolean;
+};
