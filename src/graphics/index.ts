@@ -230,7 +230,7 @@ function drawScreen() {
 			});
 	} else {
 		instructionsDiv.innerHTML =
-			'Your audition is now complete! Thank you for auditioning as a host for this event. You will hear back on your results via email near the start of November. <br /><b>Please close this window now.</b>';
+			'Your audition is now complete! Thank you for auditioning as a host for this event. You will hear back on your results via email near the end of May. <br /><b>Please close this window now.</b>';
 	}
 }
 
