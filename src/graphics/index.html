@@ -1,92 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>NodeCG Graphics</title>
-    <link rel="shortcut icon" href="#" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
-    />
-    <style>
-      body,
-      html {
-        display: flex;
-        flex-direction: column;
-        box-sizing: border-box;
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-        margin: 0;
-        font-family: 'Roboto', Arial, Helvetica, sans-serif;
-        background-color: black;
-        color: white;
-      }
-      #instructions-container {
-        height: 30%;
-        width: 100%;
-        border-bottom: white double;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        padding: 1em;
-      }
-      .button {
-        padding: 0.5em;
-        border-radius: 0.5em;
-        cursor: default;
-        color: white;
-        text-align: center;
-        font-weight: bold;
-        line-height: 1em;
-      }
-      .donation {
-        background-color: #171819;
-        border: 1px #8f9294 solid;
-        border-radius: 0.2em;
-        margin: 0.8em;
-        display: flex;
-        flex-direction: column;
-      }
-      .donation-header {
-        display: flex;
-        justify-content: space-between;
-      }
-      .metadiv {
-        padding: 0.5em;
-      }
-      .donation-button {
-        height: 0.5em;
-        width: 1.5em;
-        margin-right: 0.3em;
-        border-radius: 0.2em;
-        padding: 0.3em 0.5em 0.3em 0.5em;
-        height: 1em;
-      }
-      .comment {
-        background-color: #232425;
-        border-top: 1px #8f9294 solid;
-        border-radius: 0 0 0.2em 0.2em;
-        padding: 0.5em;
-        /* margin-top: 0.3em; */
-      }
-      span {
-        color: white !important;
-      }
-      .svg-icon {
-        width: 1em;
-        height: 1em;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="instructions-container">
-      <div id="instructions"></div>
-    </div>
-    <div style="flex-grow: 1; padding: 1em; overflow-y: auto; background-color: #171819;">
-      <div style="font-weight: bold; text-align: center">Donations:</div>
-      <div id="donations"></div>
-    </div>
-  </body>
-  <script src="index.js"></script>
+	<head>
+		<meta charset="UTF-8" />
+		<title>NodeCG Graphics</title>
+		<link rel="shortcut icon" href="favicon.ico" />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+		/>
+		<style>
+			body,
+			html {
+				display: flex;
+				flex-direction: column;
+				box-sizing: border-box;
+				height: 100%;
+				width: 100%;
+				overflow: hidden;
+				margin: 0;
+				font-family: 'Roboto', Arial, Helvetica, sans-serif;
+				background-color: black;
+				color: white;
+			}
+			#instructions-container {
+				min-height: 30vh;
+				width: 100%;
+				border-bottom: white double;
+				display: flex;
+				justify-content: space-around;
+				align-items: center;
+				padding: 1em;
+			}
+			.button {
+				padding: 0.5em;
+				border-radius: 0.5em;
+				cursor: default;
+				color: white;
+				text-align: center;
+				font-weight: bold;
+				line-height: 1em;
+			}
+			.donation {
+				background-color: #171819;
+				border: 1px #8f9294 solid;
+				border-radius: 0.2em;
+				margin: 0.8em;
+				display: flex;
+				flex-direction: column;
+			}
+			.donation-header {
+				display: flex;
+				justify-content: space-between;
+			}
+			.metadiv {
+				padding: 0.5em;
+			}
+			.donation-button {
+				height: 0.5em;
+				width: 1.5em;
+				margin-right: 0.3em;
+				border-radius: 0.2em;
+				padding: 0.3em 0.5em 0.3em 0.5em;
+				height: 1em;
+			}
+			.comment {
+				background-color: #232425;
+				border-top: 1px #8f9294 solid;
+				border-radius: 0 0 0.2em 0.2em;
+				padding: 0.5em;
+				/* margin-top: 0.3em; */
+			}
+			span {
+				color: white !important;
+			}
+			.svg-icon {
+				width: 1em;
+				height: 1em;
+			}
+			#donations {
+				width: 100%;
+				max-width: 50em;
+			}
+			.pinned {
+				background-image: linear-gradient(to right, #ffffff33, #ffffff33);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="instructions-container">
+			<div id="instructions"></div>
+		</div>
+		<div
+			style="
+				flex-grow: 1;
+				padding: 1em;
+				overflow-y: auto;
+				background-color: #171819;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			"
+		>
+			<div style="font-weight: bold; text-align: center">Donations:</div>
+			<div id="donations"></div>
+		</div>
+	</body>
+	<script src="index.js"></script>
 </html>

@@ -6,8 +6,6 @@ import OBSWebSocket from 'obs-websocket-js';
 module.exports = function (nodecg: NodeCG) {
   nodecgApiContext.set(nodecg);
   require('./othermodule');
-  console.log('Bundle Config:');
-  console.log(nodecg.bundleConfig);
 
   const hyperdeckIp = nodecg.Replicant<string>('hyperdeck_ip', {
     defaultValue: '',

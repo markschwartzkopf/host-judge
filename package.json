@@ -15,12 +15,6 @@
 				"title": "Setup Dashboard",
 				"width": 4,
 				"file": "setup.html"
-			},
-			{
-				"name": "control",
-				"title": "Control Dashboard",
-				"width": 3,
-				"file": "control.html"
 			}
 		],
 		"graphics": [
@@ -44,7 +38,8 @@
 		"build:dashboard": "node ./node_modules/typescript/bin/tsc -p ./src/dashboard --diagnostics",
 		"build:graphics": "node ./node_modules/typescript/bin/tsc -p ./src/graphics --diagnostics",
 		"build:copyhtml": "cpy \"src/**/*.html\" \"./\" --parents",
-		"build:copycss": "cpy \"src/**/*.css\" \"./\" --parents"
+		"build:copycss": "cpy \"src/**/*.css\" \"./\" --parents",
+		"build:copyico": "cpy \"src/**/*.ico\" \"./\" --parents"
 	},
 	"author": "Mark Schwartzkopf",
 	"license": "MIT",
