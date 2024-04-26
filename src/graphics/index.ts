@@ -32,7 +32,7 @@ const startingChecklist: ChecklistItem[] = [
 	},
 ];
 
-let auditionSegment: number | null = -1;
+let auditionSegment: number | null | 'alert' = -1;
 let obsRecording = false;
 
 auditionSegments.on('change', () => {
@@ -42,23 +42,29 @@ auditionSegments.on('change', () => {
 const activeDonations = nodecg.Replicant<Donation[]>('activeDonations');
 activeDonations.value = [];
 activeDonations.on('change', () => {
-	if (auditionSegment !== null && auditionSegment >= 0) drawScreen();
+	if (
+		auditionSegment !== null &&
+		auditionSegment !== 'alert' &&
+		auditionSegment >= 0
+	)
+		drawScreen();
 });
 
 function drawScreen() {
 	instructionsDiv.innerHTML = '';
 	donationsDiv.innerHTML = '';
-	if (auditionSegment !== null && auditionSegment < 0) {
+	if (
+		auditionSegment !== null &&
+		auditionSegment !== 'alert' &&
+		auditionSegment < 0
+	) {
 		const button = makeButton(
 			'Start',
 			'blue',
 			() => {
-				console.log('1');
 				NodeCG.waitForReplicants(auditionSegments)
 					.then(() => {
-						console.log('2');
 						if (auditionSegments.value && auditionSegments.value.length) {
-							console.log('3');
 							startNextSegment();
 						}
 					})
@@ -107,11 +113,13 @@ function drawScreen() {
 			instructionsDiv.appendChild(itemDiv);
 		}
 		instructionsDiv.appendChild(button);
-	} else if (auditionSegment !== null) {
+	} else if (auditionSegment !== null && auditionSegment !== 'alert') {
 		NodeCG.waitForReplicants(auditionSegments, activeDonations)
 			.then(() => {
 				const segment =
-					auditionSegments.value && auditionSegment !== null
+					auditionSegments.value &&
+					auditionSegment !== null &&
+					auditionSegment !== 'alert'
 						? auditionSegments.value[auditionSegment]
 						: null;
 				instructionsDiv.innerHTML = segment ? segment.instructions : '';
@@ -152,7 +160,6 @@ function drawScreen() {
 									'#57A047',
 									() => {
 										donation.hide = true;
-										console.log('read');
 									},
 									false,
 									'donation-button'
@@ -228,9 +235,12 @@ function drawScreen() {
 			.catch((err) => {
 				nodecg.log.error(err);
 			});
-	} else {
+	} else if (auditionSegment === null) {
 		instructionsDiv.innerHTML =
 			'Your audition is now complete! Thank you for auditioning as a host for this event. You will hear back on your results via email near the start of November. <br /><b>Please close this window now.</b>';
+	} else {
+		instructionsDiv.innerHTML =
+			'There has been an error. Please contact a staff member for assistance. <br /><b>Please close this window now.</b>';
 	}
 }
 
@@ -285,12 +295,30 @@ function startNextSegment() {
 		});
 		return;
 	}
-	if (auditionSegment !== null) auditionSegment++;
+	if (auditionSegment !== null && auditionSegment !== 'alert')
+		auditionSegment++;
+	if (auditionSegment && auditionSegment !== 'alert') {
+		nodecg
+			.sendMessage('obsIsRecording')
+			.then((val) => {
+				if (!val) {
+					auditionSegment = 'alert';
+					drawScreen();
+					nodecg.log.error('OBS is not recording, mid-audition!');
+				}
+			})
+			.catch((err) => {
+				auditionSegment = 'alert';
+				drawScreen();
+				nodecg.log.error(err);
+			});
+	}
 	NodeCG.waitForReplicants(auditionSegments, activeDonations)
 		.then(() => {
 			if (
 				auditionSegments.value &&
 				auditionSegment !== null &&
+				auditionSegment !== 'alert' &&
 				auditionSegment >= auditionSegments.value.length
 			) {
 				auditionSegment = null;
@@ -301,7 +329,9 @@ function startNextSegment() {
 					nodecg.log.error(err);
 				});
 			const segment =
-				auditionSegments.value && auditionSegment !== null
+				auditionSegments.value &&
+				auditionSegment !== null &&
+				auditionSegment !== 'alert'
 					? auditionSegments.value[auditionSegment]
 					: null;
 			if (segment) {
@@ -313,7 +343,7 @@ function startNextSegment() {
 				];
 			}
 			drawScreen();
-			if (auditionSegment !== null)
+			if (auditionSegment !== null && auditionSegment !== 'alert')
 				nodecg
 					.sendMessage(
 						'playFile',

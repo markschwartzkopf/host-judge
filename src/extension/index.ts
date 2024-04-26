@@ -132,6 +132,24 @@ module.exports = function (nodecg: NodeCG) {
     } else nodecg.log.error(`Can't stop recording: OBS not connected`);
   });
 
+	nodecg.listenFor('obsIsRecording', (val, ack) => {
+    if (obsConnected) {
+      obs
+        .call('GetRecordStatus')
+        .then((status) => {
+					if (ack && !ack.handled) {
+						ack(null, status.outputActive);
+					}
+        })
+        .catch((err) => {
+					if (ack && !ack.handled) {
+						ack(err);
+					}
+          nodecg.log.error(err);
+        });
+    } else nodecg.log.error(`Can't get recording status: OBS not connected`);
+  });
+
   hyperdeckIp.on('change', () => {
     connectHyperdeck();
   });
