@@ -178,8 +178,6 @@ function drawScreen() {
 				);
 				if (segment)
 					if (activeDonations.value && activeDonations.value.length) {
-						let firstUnpinned: HTMLElement | null = null;
-
 						const pinned = [...activeDonations.value].filter(
 							(donation) => donation.pinned
 						);
@@ -266,7 +264,7 @@ function drawScreen() {
 								buttonDiv.appendChild(ignoreButton);
 								const pinButton = makeButton(
 									'',
-									'#6B6D6F',
+									donation.pinned ? 'black' : '#6B6D6F',
 									() => {
 										donation.pinned = !donation.pinned;
 										drawScreen();
@@ -374,7 +372,7 @@ function drawScreen() {
 								buttonDiv.appendChild(ignoreButton);
 								const pinButton = makeButton(
 									'',
-									'#6B6D6F',
+									donation.pinned ? 'black' : '#6B6D6F',
 									() => {
 										donation.pinned = !donation.pinned;
 										drawScreen();
