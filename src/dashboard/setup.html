@@ -63,6 +63,8 @@
 		</div>
 		<div class="modal" id="donations-modal">
 			<div class="modal-content">
+				<label for="csv-input">CSV File:</label>
+				<input id="csv-input" type="file" accept=".csv" />
 				<div id="donations"></div>
 				<div style="display: flex; justify-content: space-around">
 					<button id="add-donation">Add Donation</button>
@@ -92,5 +94,5 @@
 			</div>
 		</div>
 	</body>
-	<script src="setup.js"></script>
+	<script type="module" src="./setup.ts"></script>
 </html>

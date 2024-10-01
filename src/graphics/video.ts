@@ -1,3 +1,5 @@
+/// <reference path="../../../../types/browser.d.ts" />
+
 const video = document.getElementById('playback') as HTMLVideoElement;
 
 let nextVideo: Blob | undefined;

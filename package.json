@@ -46,29 +46,31 @@
 		"start:NodeCG": "node ../../index.js --bundlesEnabled host-judge",
 		"watch": "npm-run-all -p watch:*",
 		"watch:extension": "node ./node_modules/typescript/bin/tsc -p ./src/extension --diagnostics --watch",
-		"watch:dashboard": "node ./node_modules/typescript/bin/tsc -p ./src/dashboard --diagnostics --watch",
+		"watch:dashboard": "vite build --mode development --watch",
 		"watch:graphics": "node ./node_modules/typescript/bin/tsc -p ./src/graphics --diagnostics --watch",
 		"watch:copy": "onchange -i ./src -- npm-run-all -s build:copy*",
 		"build": "npm-run-all -s build:*",
 		"build:extension": "node ./node_modules/typescript/bin/tsc -p ./src/extension --diagnostics",
-		"build:dashboard": "node ./node_modules/typescript/bin/tsc -p ./src/dashboard --diagnostics",
+		"build:dashboard": "vite build",
 		"build:graphics": "node ./node_modules/typescript/bin/tsc -p ./src/graphics --diagnostics",
-		"build:copyhtml": "cpy \"src/**/*.html\" \"./\" --parents",
-		"build:copycss": "cpy \"src/**/*.css\" \"./\" --parents",
-		"build:copyico": "cpy \"src/**/*.ico\" \"./\" --parents"
+		"build:copyhtml": "cpy \"src/graphics/**/*.html\" \"./graphics\" --parents",
+		"build:copycss": "cpy \"src/graphics/**/*.css\" \"./graphics\" --parents",
+		"build:copyico": "cpy \"src/graphics/**/*.ico\" \"./graphics\" --parents"
 	},
 	"author": "Mark Schwartzkopf",
 	"license": "MIT",
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^5.33.1",
 		"@typescript-eslint/parser": "^5.33.1",
-		"eslint": "^8.22.0",
 		"cpy-cli": "^4.1.0",
+		"eslint": "^8.22.0",
 		"npm-run-all": "^4.1.5",
 		"onchange": "^7.1.0",
-		"typescript": "^4.7.4"
+		"typescript": "^4.7.4",
+		"vite": "^5.4.8"
 	},
 	"dependencies": {
+		"@cipscis/csv": "^2.1.0",
 		"obs-websocket-js": "^5.0.3"
 	}
 }

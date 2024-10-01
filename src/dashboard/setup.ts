@@ -1,5 +1,7 @@
 /// <reference path="../../../../types/browser.d.ts" />
 
+import { parse } from '@cipscis/csv';
+
 const videos = nodecg.Replicant<{ base: string }[]>('assets:videos');
 const auditionSegments =
 	nodecg.Replicant<AuditionSegment[]>('audition_segments');
@@ -26,6 +28,7 @@ const donationsModal = document.getElementById(
 	'donations-modal'
 ) as HTMLDivElement;
 const donationsDiv = document.getElementById('donations') as HTMLDivElement;
+const csvInput = document.getElementById('csv-input') as HTMLInputElement;
 
 let instructionsSave: ((str: string) => void) | null = null;
 
@@ -61,6 +64,56 @@ donationsModal.onclick = () => {
 (donationsModal.children[0] as HTMLDivElement).onclick = (e) => {
 	e.stopPropagation();
 };
+
+type DonationData = [string, string, string][];
+
+function isDonationData(data: any[][]): data is DonationData {
+	return data.every((row) => {
+		try {
+			if (row.length !== 3) return false;
+
+			const amount = parseFloat(row[0]);
+			if (isNaN(amount)) return false;
+
+			return true;
+		} catch {
+			return false;
+		}
+	});
+}
+
+csvInput.addEventListener('change', async () => {
+	if (!csvInput.files) return;
+	const string = await csvInput.files[0].text();
+	const donations = parse(string);
+
+	if (!isDonationData(donations)) {
+		alert('CSV does not contain valid donation data.');
+		return;
+	}
+
+	const segments = JSON.parse(
+		JSON.stringify(auditionSegments.value)
+	) as AuditionSegment[];
+
+	if (donationsSegment === null || !segments[donationsSegment]) {
+		console.error('unknown audition segment');
+		return;
+	}
+
+	segments[donationsSegment].donations = donations.map((donation) => {
+		return {
+			amount: parseFloat(donation[0]),
+			donor: donation[1],
+			comment: donation[2],
+		};
+	});
+
+	auditionSegments.value = segments;
+
+	// eslint-disable-next-line
+	csvInput.value = '';
+});
 
 let donationsSegment: number | null = null;
 
