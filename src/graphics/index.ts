@@ -50,6 +50,8 @@ activeDonations.on('change', () => {
 		drawScreen();
 });
 
+let participantName: string | undefined;
+
 function drawScreen() {
 	instructionsDiv.innerHTML = '';
 	donationsDiv.innerHTML = '';
@@ -85,6 +87,7 @@ function drawScreen() {
 				`Hello and welcome to the AGDQ 2024 host audition. Please make sure you've reviewed the following materials before beginning:`
 			)
 		);
+
 		const list = document.createElement('ul');
 		let item = document.createElement('li');
 		item.innerHTML = `Instructions`;
@@ -98,7 +101,7 @@ function drawScreen() {
 		instructionsDiv.appendChild(list);
 		instructionsDiv.appendChild(
 			document.createTextNode(
-				`Make sure you have the blurbs open and ready to go. When you’re ready, check the boxes and go to the next page to start.`
+				`Make sure you have the blurbs open and ready to go. When you’re ready, check the boxes, enter your name, and go to the next page to start.`
 			)
 		);
 		instructionsDiv.appendChild(document.createElement('br'));
@@ -106,18 +109,52 @@ function drawScreen() {
 		for (let i = 0; i < startingChecklist.length; i++) {
 			const itemDiv = document.createElement('div');
 			const checkbox = document.createElement('input');
+			checkbox.id = `checkbox-${i}`;
 			checkbox.type = 'checkbox';
 			checkbox.checked = startingChecklist[i].checked;
 			checkbox.onclick = () => {
 				startingChecklist[i].checked = checkbox.checked;
-				if (startingChecklist.map((x) => x.checked).every((x) => x)) {
+				if (
+					startingChecklist.map((x) => x.checked).every((x) => x) &&
+					name.value !== ''
+				) {
 					buttonOn(button);
 				} else buttonOn(button, false);
 			};
 			itemDiv.appendChild(checkbox);
-			itemDiv.appendChild(document.createTextNode(startingChecklist[i].text));
+
+			const label = document.createElement('label');
+			label.innerText = startingChecklist[i].text;
+			label.htmlFor = `checkbox-${i}`;
+
+			itemDiv.appendChild(label);
 			instructionsDiv.appendChild(itemDiv);
 		}
+
+		instructionsDiv.appendChild(document.createElement('br'));
+
+		const label = document.createElement('label');
+		label.htmlFor = 'participant';
+		label.innerText = 'Your Name';
+
+		instructionsDiv.appendChild(label);
+		instructionsDiv.appendChild(document.createElement('br'));
+
+		const name = document.createElement('input');
+		name.id = 'participant';
+		name.type = 'text';
+		name.addEventListener('input', () => {
+			participantName = name.value;
+			if (
+				startingChecklist.map((x) => x.checked).every((x) => x) &&
+				name.value !== ''
+			) {
+				buttonOn(button);
+			} else buttonOn(button, false);
+		});
+
+		instructionsDiv.appendChild(name);
+
 		instructionsDiv.appendChild(button);
 	} else if (auditionSegment !== null && auditionSegment !== 'alert') {
 		NodeCG.waitForReplicants(auditionSegments, activeDonations)
@@ -302,7 +339,7 @@ function buttonOn(buttonContainer: HTMLDivElement, on?: boolean) {
 
 function startNextSegment() {
 	if (auditionSegment === -1 && !obsRecording) {
-		nodecg.sendMessage('obsRecord').catch((err) => {
+		nodecg.sendMessage('obsRecord', participantName).catch((err) => {
 			nodecg.log.error(err);
 		});
 		return;

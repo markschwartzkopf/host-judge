@@ -1,6 +1,6 @@
 /// <reference path="../../../../types/browser.d.ts" />
 
-import { parse } from '@cipscis/csv';
+import { parse, stringify } from '@cipscis/csv';
 
 const videos = nodecg.Replicant<{ base: string }[]>('assets:videos');
 const auditionSegments =
@@ -29,6 +29,7 @@ const donationsModal = document.getElementById(
 ) as HTMLDivElement;
 const donationsDiv = document.getElementById('donations') as HTMLDivElement;
 const csvInput = document.getElementById('csv-input') as HTMLInputElement;
+const download = document.getElementById('download') as HTMLButtonElement;
 
 let instructionsSave: ((str: string) => void) | null = null;
 
@@ -113,6 +114,49 @@ csvInput.addEventListener('change', async () => {
 
 	// eslint-disable-next-line
 	csvInput.value = '';
+});
+
+download.addEventListener('click', () => {
+	nodecg.readReplicant<
+		{
+			name: string;
+			startTime: string;
+			endTime: string;
+			fileName: string;
+		}[]
+	>('recordings', (val) => {
+		const data: [string, string, string, string][] = [
+			['Name', 'Start Time', 'End Time', 'File Name'],
+		];
+
+		data.push(
+			...val.map(
+				(rec) =>
+					[rec.name, rec.startTime, rec.endTime, rec.fileName] as [
+						string,
+						string,
+						string,
+						string
+					]
+			)
+		);
+
+		const text = stringify(data, { sanitise: true });
+
+		const el = document.createElement('a');
+		el.setAttribute('download', 'recording-data.csv');
+		el.setAttribute(
+			'href',
+			'data:text/plain;charset=utf-8,' + encodeURIComponent(text)
+		);
+		el.style.display = 'none';
+
+		document.body.appendChild(el);
+
+		el.click();
+
+		document.body.removeChild(el);
+	});
 });
 
 let donationsSegment: number | null = null;
