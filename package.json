@@ -23,6 +23,22 @@
 				"width": 1920,
 				"height": 1080,
 				"singleInstance": true
+			},
+			{
+				"file": "video.html",
+				"width": 1920,
+				"height": 1080,
+				"singleInstance": true
+			}
+		],
+		"assetCategories": [
+			{
+				"name": "videos",
+				"title": "Segment Videos",
+				"allowedTypes": [
+					"mp4",
+					"webm"
+				]
 			}
 		]
 	},

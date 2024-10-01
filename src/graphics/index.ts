@@ -58,6 +58,12 @@ function drawScreen() {
 		auditionSegment !== 'alert' &&
 		auditionSegment < 0
 	) {
+		nodecg
+			.sendMessage('preloadVideo', auditionSegments.value![0].filename)
+			.catch((err) => {
+				nodecg.log.error(err);
+			});
+
 		const button = makeButton(
 			'Start',
 			'blue',
@@ -238,6 +244,12 @@ function drawScreen() {
 	} else if (auditionSegment === null) {
 		instructionsDiv.innerHTML =
 			'Your audition is now complete! Thank you for auditioning as a host for this event. You will hear back on your results via email near the start of November. <br /><b>Please close this window now.</b>';
+
+		nodecg
+			.sendMessage('preloadVideo', auditionSegments.value![0].filename)
+			.catch((err) => {
+				nodecg.log.error(err);
+			});
 	} else {
 		instructionsDiv.innerHTML =
 			'There has been an error. Please contact a staff member for assistance. <br /><b>Please close this window now.</b>';
@@ -343,7 +355,7 @@ function startNextSegment() {
 				];
 			}
 			drawScreen();
-			if (auditionSegment !== null && auditionSegment !== 'alert')
+			if (auditionSegment !== null && auditionSegment !== 'alert') {
 				nodecg
 					.sendMessage(
 						'playFile',
@@ -352,6 +364,17 @@ function startNextSegment() {
 					.catch((err) => {
 						nodecg.log.error(err);
 					});
+				if (auditionSegment <= auditionSegments.value!.length - 2) {
+					nodecg
+						.sendMessage(
+							'preloadVideo',
+							auditionSegments.value![auditionSegment + 1].filename
+						)
+						.catch((err) => {
+							nodecg.log.error(err);
+						});
+				}
+			}
 		})
 		.catch((err) => {
 			nodecg.log.error(err);
