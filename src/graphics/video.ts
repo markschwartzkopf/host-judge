@@ -1,5 +1,7 @@
 /// <reference path="../../../../types/browser.d.ts" />
 
+document.title = `Video Playback - ${nodecg.config.port}`;
+
 const video = document.getElementById('playback') as HTMLVideoElement;
 
 let nextVideo: Blob | undefined;
