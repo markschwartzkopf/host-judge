@@ -84,7 +84,7 @@ function drawScreen() {
 		);
 		instructionsDiv.appendChild(
 			document.createTextNode(
-				`Hello and welcome to the AGDQ 2024 host audition. Please make sure you've reviewed the following materials before beginning:`
+				`Hello and welcome to the AGDQ 2025 host audition. Please make sure you've reviewed the following materials before beginning:`
 			)
 		);
 
@@ -96,12 +96,12 @@ function drawScreen() {
 		item.innerHTML = `Judging rubric`;
 		list.appendChild(item);
 		item = document.createElement('li');
-		item.innerHTML = `Blurbs`;
+		item.innerHTML = `Blurbs & Audition Context`;
 		list.appendChild(item);
 		instructionsDiv.appendChild(list);
 		instructionsDiv.appendChild(
 			document.createTextNode(
-				`Make sure you have the blurbs open and ready to go. When you’re ready, check the boxes, enter your name, and go to the next page to start.`
+				`Make sure you have the blurbs and context open and ready to go. When you're ready, check the boxes, enter your username, and press start to begin.`
 			)
 		);
 		instructionsDiv.appendChild(document.createElement('br'));
@@ -135,7 +135,7 @@ function drawScreen() {
 
 		const label = document.createElement('label');
 		label.htmlFor = 'participant';
-		label.innerText = 'Your Name';
+		label.innerText = 'Your Volunteer Username';
 
 		instructionsDiv.appendChild(label);
 		instructionsDiv.appendChild(document.createElement('br'));
@@ -415,7 +415,7 @@ function drawScreen() {
 			});
 	} else if (auditionSegment === null) {
 		instructionsDiv.innerHTML =
-			'Your audition is now complete! Thank you for auditioning as a host for this event. You will hear back on your results via email near the start of November. <br /><b>Please close this window now.</b>';
+			'Your audition is now complete! Thank you for auditioning as a host for this event. You will hear back on your results via email in mid to late November. <br /><b>Please close this window now.</b>';
 
 		nodecg
 			.sendMessage('preloadVideo', auditionSegments.value![0].filename)
@@ -522,8 +522,12 @@ function startNextSegment() {
 				/* for (let i = 0; i < segment.donations.length; i++)
           segment.donations[i].hide = false; */
 				activeDonations.value = [
-					...activeDonations.value!,
-					...JSON.parse(JSON.stringify(segment.donations)),
+					...activeDonations.value!.filter(
+						(donation) => donation.persist ?? true
+					),
+					...(JSON.parse(JSON.stringify(segment.donations)) as Donation[]).map(
+						(donation) => ({ ...donation, persist: segment.retain ?? true })
+					),
 				];
 			}
 			drawScreen();

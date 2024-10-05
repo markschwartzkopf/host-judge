@@ -306,10 +306,11 @@ obsPort.on('change', (newVal) => {
 					filename: '',
 					donations: [],
 					instructions: '',
+					retain: true,
 				});
 			} else
 				auditionSegments.value = [
-					{ filename: '', donations: [], instructions: '' },
+					{ filename: '', donations: [], instructions: '', retain: true },
 				];
 		})
 		.catch((err) => {
@@ -510,6 +511,26 @@ function drawSegments() {
 				if (!segmentDiv.children[e]) {
 					donations.className = 'segment-flex';
 					segmentDiv.appendChild(donations);
+				}
+
+				e++;
+				const retain = segmentDiv.children[e]
+					? (segmentDiv.children[e] as HTMLDivElement)
+					: document.createElement('div');
+				retain.innerHTML = '<label>Retain Segment Donations</label>';
+				const check = document.createElement('input');
+				check.type = 'checkbox';
+				check.checked = segments[i].retain ?? true;
+				check.onchange = (e) => {
+					segments[i].retain = (
+						e.currentTarget as HTMLInputElement | null
+					)?.checked!;
+					auditionSegments.value = segments;
+				};
+				retain.appendChild(check);
+				if (!segmentDiv.children[e]) {
+					donations.className = 'segment-flex';
+					segmentDiv.appendChild(retain);
 				}
 
 				if (!mainDiv.children[i]) {
