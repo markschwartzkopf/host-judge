@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Video Playback</title>
+		<link rel="shortcut icon" href="favicon.ico" />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+		/>
+		<style>
+			body,
+			html {
+				display: flex;
+				flex-direction: column;
+				box-sizing: border-box;
+				height: 100%;
+				width: 100%;
+				overflow: hidden;
+				margin: 0;
+				font-family: 'Roboto', Arial, Helvetica, sans-serif;
+				background-color: black;
+				color: white;
+			}
+			#playback {
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<video preload="auto" id="playback"></video>
+	</body>
+	<script src="video.js"></script>
+</html>
