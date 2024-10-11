@@ -15,6 +15,23 @@
 				"title": "Setup Dashboard",
 				"width": 4,
 				"file": "setup.html"
+			},
+			{
+				"name": "confirm-delete",
+				"title": "Confirm Log Delete",
+				"file": "confirm.html",
+				"dialog": true,
+				"width": 4,
+				"dialogButtons": [
+					{
+						"name": "Yes, Delete",
+						"type": "confirm"
+					},
+					{
+						"name": "No, Cancel",
+						"type": "dismiss"
+					}
+				]
 			}
 		],
 		"graphics": [

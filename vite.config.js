@@ -2,13 +2,6 @@ import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
 import path from 'path';
 
-console.log(
-	path.resolve(
-		__dirname,
-		fileURLToPath(new URL('./src/dashboard/setup.html', import.meta.url))
-	)
-);
-
 export default defineConfig({
 	optimizeDeps: {
 		esbuildOptions: {
@@ -21,6 +14,10 @@ export default defineConfig({
 				setup: path.resolve(
 					__dirname,
 					fileURLToPath(new URL('./src/dashboard/setup.html', import.meta.url))
+				),
+				confirm: path.resolve(
+					__dirname,
+					fileURLToPath(new URL('./src/dashboard/confirm.html', import.meta.url))
 				),
 			},
 		},
