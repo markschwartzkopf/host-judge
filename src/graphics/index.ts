@@ -84,21 +84,10 @@ function drawScreen() {
 		);
 		instructionsDiv.appendChild(
 			document.createTextNode(
-				`Hello and welcome to the AGDQ 2025 host audition. Please make sure you've reviewed the following materials before beginning:`
+				`Hello and welcome to the Frost Fatales 2025 host audition. Please make sure you've reviewed the audition materials before beginning:`
 			)
 		);
 
-		const list = document.createElement('ul');
-		let item = document.createElement('li');
-		item.innerHTML = `Instructions`;
-		list.appendChild(item);
-		item = document.createElement('li');
-		item.innerHTML = `Judging rubric`;
-		list.appendChild(item);
-		item = document.createElement('li');
-		item.innerHTML = `Blurbs & Audition Context`;
-		list.appendChild(item);
-		instructionsDiv.appendChild(list);
 		instructionsDiv.appendChild(
 			document.createTextNode(
 				`Make sure you have the blurbs and context open and ready to go. When you're ready, check the boxes, enter your username, and press start to begin.`
@@ -135,7 +124,7 @@ function drawScreen() {
 
 		const label = document.createElement('label');
 		label.htmlFor = 'participant';
-		label.innerText = 'Your Volunteer Username';
+		label.innerText = 'Your Discord Username';
 
 		instructionsDiv.appendChild(label);
 		instructionsDiv.appendChild(document.createElement('br'));
