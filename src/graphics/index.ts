@@ -404,7 +404,7 @@ function drawScreen() {
 			});
 	} else if (auditionSegment === null) {
 		instructionsDiv.innerHTML =
-			'Your audition is now complete! Thank you for auditioning as a host for this event. You will hear back on your results via email in mid to late November. <br /><b>Please close this window now.</b>';
+			'Your audition is now complete! Thank you for auditioning as a host for this event. You will hear back on your results via email in mid to late December. <br /><b>Please close this window now.</b>';
 
 		nodecg
 			.sendMessage('preloadVideo', auditionSegments.value![0].filename)
