@@ -84,7 +84,7 @@ function drawScreen() {
 		);
 		instructionsDiv.appendChild(
 			document.createTextNode(
-				`Hello and welcome to the Frost Fatales 2025 host audition. Please make sure you've reviewed the audition materials before beginning:`
+				`Hello and welcome to the Frost Fatales 2025 host audition. Please make sure you've reviewed the audition materials before beginning. `
 			)
 		);
 
