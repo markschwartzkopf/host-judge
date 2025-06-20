@@ -39,13 +39,13 @@
 				"file": "index.html",
 				"width": 1920,
 				"height": 1080,
-				"singleInstance": true
+				"singleInstance": false
 			},
 			{
 				"file": "video.html",
 				"width": 1920,
 				"height": 1080,
-				"singleInstance": true
+				"singleInstance": false
 			}
 		],
 		"assetCategories": [
