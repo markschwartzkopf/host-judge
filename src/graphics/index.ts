@@ -404,7 +404,7 @@ function drawScreen() {
 			});
 	} else if (auditionSegment === null) {
 		instructionsDiv.innerHTML =
-			`Congratulations! – You have completed a PRACTICE host audition for SGDQ 2026. We hope to hear a final audition from you in the coming days! <br /><b>Please close this window now.</b>`;
+			`Congratulations! – You have completed the host audition for SGDQ 2026! Within a week of your audition, you’ll receive a confirmation that your audition has been processed successfully. We will release the host list on or around May 17th. Thank you so much for auditioning! <br /><b>Please close this window now.</b>`;
 		nodecg
 			.sendMessage('preloadVideo', auditionSegments.value![0].filename)
 			.catch((err) => {
