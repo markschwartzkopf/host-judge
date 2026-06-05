@@ -84,7 +84,7 @@ function drawScreen() {
 		);
 		instructionsDiv.appendChild(
 			document.createTextNode(
-				`Hello and welcome to the SGDQ 2026 FINAL host audition. Please make sure you've reviewed the audition materials before beginning and tested your tech setup.`
+				`Hello and welcome to the Flame Fatales 2026 Host audition. Please make sure you've reviewed the audition materials before beginning.`
 			)
 		);
 
@@ -404,7 +404,7 @@ function drawScreen() {
 			});
 	} else if (auditionSegment === null) {
 		instructionsDiv.innerHTML =
-			`Congratulations! – You have completed the host audition for SGDQ 2026! Within a week of your audition, you’ll receive a confirmation that your audition has been processed successfully. We will release the host list on or around May 17th. Thank you so much for auditioning! <br /><b>Please close this window now.</b>`;
+			`Your audition is now complete! Thank you for auditioning as a host for this event. You will hear back with your results in late July. <br /><b>Please close this window now.</b>`;
 		nodecg
 			.sendMessage('preloadVideo', auditionSegments.value![0].filename)
 			.catch((err) => {
