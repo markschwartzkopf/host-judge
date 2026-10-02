@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Restart NodeCG</title>
+		<link rel="shortcut icon" href="#" />
+		<style>
+			body,
+			html {
+				box-sizing: border-box;
+				height: 100%;
+				width: fit-content;
+				margin: 0;
+				min-height: 5em;
+			}
+			body {
+				display: flex;
+			}
+			input {
+				border: 1px black solid;
+			}
+			.segment {
+				background-color: white;
+				color: black;
+				padding: 0.5em;
+				margin-bottom: 1em;
+			}
+			.segment-flex {
+				display: flex;
+				justify-content: space-around;
+				gap: 1em;
+				margin: 0.5em;
+			}
+			hr {
+				width: 98%;
+			}
+		</style>
+	</head>
+	<body>
+		<div style="padding: 1em; display: flex; flex-direction: column">
+			<div>
+				<button id="restart-nodecg" style="padding: 7px;text-align: center;font-weight: bold;white-space: wrap;width: 60%;" id="restart-nodecg">Restart NodeCG
+Instance (PM2)</button>
+			</div>
+		</div>
+	<script type="module" src="./restart.ts"></script>
+</html>

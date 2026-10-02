@@ -15,6 +15,10 @@ export default defineConfig({
 					__dirname,
 					fileURLToPath(new URL('./src/dashboard/setup.html', import.meta.url))
 				),
+				restart: path.resolve(
+					__dirname,
+					fileURLToPath(new URL('./src/dashboard/restart.html', import.meta.url))
+				),
 				confirm: path.resolve(
 					__dirname,
 					fileURLToPath(new URL('./src/dashboard/confirm.html', import.meta.url))

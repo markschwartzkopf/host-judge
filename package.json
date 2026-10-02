@@ -17,6 +17,12 @@
 				"file": "setup.html"
 			},
 			{
+				"name": "restart",
+				"title": "Restart NodeCG",
+				"width": 2,
+				"file": "restart.html"
+			},
+			{
 				"name": "confirm-delete",
 				"title": "Confirm Log Delete",
 				"file": "confirm.html",
