@@ -17,8 +17,8 @@ const donationsDiv = document.getElementById('donations') as HTMLDivElement;
 const auditionSegments =
 	nodecg.Replicant<AuditionSegment[]>('audition_segments');
 
-const auditionStartText = nodecg.bundleConfig.practice ? "Hello and welcome to the AGDQ 2027 PRACTICE host audition. Please make sure you've reviewed the audition materials before beginning and tested your tech setup. Make sure you have the blurbs and context open and ready to go. When you're ready, check the boxes, enter your username, and press start to begin."
-: "Hello and welcome to the AGDQ 2027 FINAL host audition. Please make sure you've reviewed the audition materials before beginning and tested your tech setup. Make sure you have the blurbs and context open and ready to go. When you're ready, check the boxes, enter your username, and press start to begin.";
+const auditionStartText = nodecg.bundleConfig.practice ? "Hello and welcome to the AGDQ 2027 PRACTICE host audition. Please make sure you've reviewed the audition materials before beginning and tested your tech setup."
+: "Hello and welcome to the AGDQ 2027 FINAL host audition. Please make sure you've reviewed the audition materials before beginning and tested your tech setup.";
 
 const auditionEndText = nodecg.bundleConfig.practice ? "Congratulations! You have completed a PRACTICE host audition for AGDQ 2027. We hope to hear a final audition from you in the coming days!"
  : "Congratulations–You have completed the host audition for AGDQ 2027! Within a week of your audition, you’ll receive a confirmation that your audition has been processed successfully. We will release the host list on or around November 22nd. Thank you so much for auditioning!";
@@ -90,13 +90,7 @@ function drawScreen() {
 		);
 		instructionsDiv.appendChild(
 			document.createTextNode(
-				`${auditionStartText}`
-			)
-		);
-
-		instructionsDiv.appendChild(
-			document.createTextNode(
-				`Make sure you have the blurbs and context open and ready to go. When you're ready, check the boxes, enter your username, and press start to begin.`
+				`${auditionStartText} Make sure you have the blurbs and context open and ready to go. When you're ready, check the boxes, enter your username, and press start to begin.`
 			)
 		);
 		instructionsDiv.appendChild(document.createElement('br'));
