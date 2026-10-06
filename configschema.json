@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "practice": {
+      "type": "boolean",
+      "required": false
+    }
+  }
+}
