@@ -17,13 +17,19 @@ const donationsDiv = document.getElementById('donations') as HTMLDivElement;
 const auditionSegments =
 	nodecg.Replicant<AuditionSegment[]>('audition_segments');
 
+const auditionStartText = nodecg.bundleConfig.practice ? "Hello and welcome to the AGDQ 2027 PRACTICE host audition. Please make sure you've reviewed the audition materials before beginning and tested your tech setup. Make sure you have the blurbs and context open and ready to go. When you're ready, check the boxes, enter your username, and press start to begin."
+: "Hello and welcome to the AGDQ 2027 FINAL host audition. Please make sure you've reviewed the audition materials before beginning and tested your tech setup. Make sure you have the blurbs and context open and ready to go. When you're ready, check the boxes, enter your username, and press start to begin.";
+
+const auditionEndText = nodecg.bundleConfig.practice ? "Congratulations! You have completed a PRACTICE host audition for AGDQ 2027. We hope to hear a final audition from you in the coming days!"
+ : "Congratulations–You have completed the host audition for AGDQ 2027! Within a week of your audition, you’ll receive a confirmation that your audition has been processed successfully. We will release the host list on or around November 22nd. Thank you so much for auditioning!";
+
 const startingChecklist: ChecklistItem[] = [
 	{
-		text: 'My mic is working in Discord',
+		text: 'My mic and audio are working in Discord',
 		checked: false,
 	},
 	{
-		text: 'I have the GDQHostBot stream open in discord (you should see a black screen)',
+		text: 'I have the GDQHostBot Stream open in Discord',
 		checked: false,
 	},
 	{
@@ -84,7 +90,7 @@ function drawScreen() {
 		);
 		instructionsDiv.appendChild(
 			document.createTextNode(
-				`Hello and welcome to the Flame Fatales 2026 Host audition. Please make sure you've reviewed the audition materials before beginning.`
+				`${auditionStartText}`
 			)
 		);
 
@@ -404,7 +410,7 @@ function drawScreen() {
 			});
 	} else if (auditionSegment === null) {
 		instructionsDiv.innerHTML =
-			`Your audition is now complete! Thank you for auditioning as a host for this event. You will hear back with your results in late July. <br /><b>Please close this window now.</b>`;
+			`${auditionEndText}<br /><b>Please close this window now.</b>`;
 		nodecg
 			.sendMessage('preloadVideo', auditionSegments.value![0].filename)
 			.catch((err) => {
